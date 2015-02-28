@@ -13,8 +13,8 @@ test('create bidirectional device with two sockets', function (t) {
     var r1 = nano.socket('pair', { raw: 1 });
     var r2 = nano.socket('pair', { raw: 1 });
 
-    var addr1 = 'inproc://device1';
-    var addr2 = 'inproc://device2';
+    var addr1 = 'inproc://device01';
+    var addr2 = 'inproc://device02';
     var msg1 = "Hello";
     var msg2 = "World";
 

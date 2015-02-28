@@ -5,7 +5,7 @@ ALL:
 	npm i
 
 check:
-	find test/*.js test/standalone/*.js | xargs -n 1 node | node_modules/tap-difflet/bin/tap-difflet
+	find test/*.js | xargs -n 1 node | node_modules/tap-difflet/bin/tap-difflet
 
 test:
 	find test/*.js test/standalone/*.js | xargs -n 1 node | node_modules/tap-nyan/bin/cmd.js
@@ -22,4 +22,3 @@ bench:
 	node perf/local_thr.js tcp://127.0.0.1:5556 10 100000& node perf/remote_thr.js tcp://127.0.0.1:5556 10 100000 && wait
 
 full: clean ALL test
-

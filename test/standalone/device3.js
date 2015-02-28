@@ -10,7 +10,7 @@ var test = require('tape');
 test('create loopback device with one socket', function (t) {
     t.plan(2);
 
-    var r1 = nano.socket('bus', { raw: 1 });
+    var r1 = nano.socket('bus', { raw: true });
 
     var addr = 'inproc://device1';
     var msg = "Hello";

@@ -10,8 +10,8 @@ var test = require('tape');
 test('create unidirectional device with two sockets', function (t) {
     t.plan(2);
 
-    var r1 = nano.socket('pull', { raw: 1 });
-    var r2 = nano.socket('push', { raw: 1 });
+    var r1 = nano.socket('pull', { raw: true });
+    var r2 = nano.socket('push', { raw: true });
 
     var addr1 = 'inproc://device1';
     var addr2 = 'inproc://device2';

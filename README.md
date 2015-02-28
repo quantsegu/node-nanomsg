@@ -94,6 +94,48 @@ socket.connect('tcp://127.0.0.1:5555');
 
 *(Function, param: Function)*: Closes the socket. Any buffered inbound messages that were not yet received by the application will be discarded. The nanomsg library will try to deliver any outstanding outbound messages for the time specified by `linger`.
 
+## sending and receiving: writable and readable
+
+### socket.send(msg)
+*(Function, param: String or Buffer)*: equivalent to `socket.send()` in [node.zeromq](https://github.com/JustinTulloss/zeromq.node).
+
+```js
+socket.send('hello from nanømsg!');
+```
+
+`send(msg)` is automatically invoked during `Writable` consumption of some other `Readable` stream. In that case a `Writable`'s `pipe()` method can be used to transmit across readable data sources. See [example for more detail](examples/writablepipe.js). The flow of data distributes to endpoint(s) determined by the particular socket type.
+
+```js
+var fs = require('fs');
+var source = fs.createReadStream(__dirname + 'filename.ext');
+
+source.pipe(socket); //sends each chunk as a msg to socket's particular endpoint
+```
+
+### socket.on(data, callback)
+*(Function, param order: String, Function)*: The `Readable` stream's `on()` function is an event listener registered with the `nanomsg c lib` that emits `'data'` events. To receive messages, pass the string `'data'` followed a callback containing a single data parameter.
+
+```js
+socket.on('data', function (msg) {
+  console.log(String(msg)); //'hello from nanømsg!'
+});
+```
+
+The readable stream's `data` event is automatically invoked when piped to a `Writable` or `Transform` consumer stream. See [example for more detail](examples/transforms.js). Here `msgprocessor` is a transform you could pipe to a writable or the next transform:
+
+```js
+var through = require('through');
+
+var msgprocessor = through(function(msg){
+  console.log(String(msg)); //'hello from nanømsg'
+  this.queue(str + ' and cheers!');
+});
+
+socket.pipe(msgprocessor); //msg transformed to: 'hello from nanømsg and cheers!'
+```
+
+## subscription api
+
 ### socket.chan(Array)
 
 *(Function, param: Array of Strings, default: `['']`)*: Allows for sub sockets
@@ -110,6 +152,8 @@ multiple strings and all will be unfiltered.
 
 If you unsubscribe from the default channel, `''`, without subscribing to any
 new channels, your sub socket will stop receiving messages.
+
+## sockopt api
 
 ### socket.tcpnodelay(boolean)
 
