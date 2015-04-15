@@ -13,7 +13,3 @@ sub.on('data', function (msg) {
 pull.pipe(pub); //pipe readable sockets to any writable socket or stream
 
 setInterval( function(){ push.send('hello from a push socket!') }, 100 );
-
-pull.on('data',function(msg){
-  console.log(msg)
-})

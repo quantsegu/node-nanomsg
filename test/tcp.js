@@ -148,7 +148,7 @@ test('tcp socket bus', function (t) {
 
             // Tally messages from other buses.
             bus.on('data', function (msg) {
-                console.error('#', 'received data from', msg.toString(), 'on', addr)
+                //console.error('#', 'received data from', msg.toString(), 'on', addr)
                 this.responseCount++;
                 current++;
 

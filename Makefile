@@ -5,7 +5,7 @@ ALL:
 	npm i
 
 check:
-	find test/*.js | xargs -n 1 node | node_modules/tap-difflet/bin/tap-difflet
+	find test/*.js test/standalone/*.js | xargs -n 1 node | node_modules/tap-difflet/bin/tap-difflet
 
 test:
 	find test/*.js test/standalone/*.js | xargs -n 1 node | node_modules/tap-nyan/bin/cmd.js
